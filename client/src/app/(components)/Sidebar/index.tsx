@@ -1,7 +1,12 @@
 "use client";
-import { LockIcon } from "lucide-react";
+import { LockIcon, LucideIcon } from "lucide-react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import React, { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/app/redux";
+
+import { setIsSidebarCollapsed, setIsDarkMode } from "@/state";
+import Link from "next/link";
 
 type Props = {};
 
@@ -37,6 +42,46 @@ const Sidebar = (props: Props) => {
         </div>
       </div>
     </div>
+  );
+};
+
+interface SidebarLinkProps {
+  href: string;
+  icon: LucideIcon;
+  label: string;
+  isCollapsed: boolean;
+}
+const SidebarLink = ({
+  href,
+  icon: Icon,
+  label,
+  isCollapsed,
+}: SidebarLinkProps) => {
+  const pathname = usePathname();
+  const isActive =
+    pathname === href || (pathname === "/" && href === "/dashboard");
+  const screenWidth = window.innerWidth;
+
+  const dispatch = useAppDispatch();
+  const isSidebarCollapsed = useAppSelector(
+    (state) => state.global.isSidebarCollapsed,
+  );
+
+  return (
+    <Link href={href} className="w-full">
+      <div
+        className={`relative flex cursor-pointer items-center gap-3 transition-colors hover:bg-gray-100 dark:bg-black dark:hover:bg-gray-700 ${isActive ? "text=white bg-gray-100 dark:bg-gray-600" : ""}`}
+      >
+        {isActive && (
+          <div className="absolute left-0 top-0 h-[100%] w-[5px] bg-blue-200" />
+        )}
+
+        <Icon className="h-6 w-6 text-gray-800 dark:text-gray-100" />
+        <span className="font-medium text-gray-800 dark:text-gray-100">
+          {label}
+        </span>
+      </div>
+    </Link>
   );
 };
 
