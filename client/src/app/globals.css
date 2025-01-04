@@ -4,17 +4,17 @@
 
 *,
 *::before,
-*::after{
+*::after {
   box-sizing: border-box;
 }
 
-html, 
-body, 
-#root, 
-.app{
+html,
+body,
+#root,
+.app {
   height: 100%;
   width: 100%;
   @apply text-sm;
-  @apply bg-gray-500; 
+  @apply bg-white;
   @apply text-gray-900;
 }
